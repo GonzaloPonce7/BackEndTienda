@@ -1,4 +1,4 @@
-const {ProductManager} = require('./ProductManager')
+const {ProductManager} = require('./services/ProductManager')
 
 // Main
 
@@ -26,4 +26,4 @@ let manager = new ProductManager();
 // // manager.addProduct(new Product("...."));
 
 // // manager.print()
-module.exports.manager = manager
+module.exports = manager
