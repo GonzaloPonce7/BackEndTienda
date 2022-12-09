@@ -1,6 +1,6 @@
 class Product {
 
-    constructor(title, description, price, thumbnail, stock, code) {
+    constructor(title, description, price, thumbnail, stock, code, status = true, category) {
         this.id= undefined;
         this.title = title,
         this.description = description,
@@ -8,6 +8,8 @@ class Product {
         this.thumbnail = thumbnail,
         this.stock = stock
         this.code = code
+        this.status = status
+        this.category = category
     }
     
     setId(id) {
@@ -15,4 +17,4 @@ class Product {
     }
 }
 
-module.exports.Product = Product
+module.exports = Product
