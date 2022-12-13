@@ -13,7 +13,7 @@ class Product {
     }
     
     setId(id) {
-        this.id=id;
+        this.id = id;
     }
 }
 

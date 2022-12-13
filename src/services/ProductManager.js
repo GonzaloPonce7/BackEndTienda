@@ -1,14 +1,14 @@
 const { Product } = require("../models/Product");
 const fs = require("fs");
+const pathModule = require('path')
 
 class ProductManager {
-  constructor(path = "./listaProductos.txt") {
+  constructor(path = pathModule.resolve(__dirname, "../db/productos.json")) {
     this.path = path;
     this.products = this.readFileInit(path) || this.writeFileInit(path);
   }
 
   addProduct = async (product) => {
-    //TODO: agregar almacenamiento en el archivo y poder actualizarlo cada ves que se agregue un producto
     if (this.isValid(product)) {
       //es valido
       // valido si el producto que ingresa no repite codigo con otro producto en la lista
@@ -27,7 +27,6 @@ class ProductManager {
   };
 
   updateProduct = async (id, product) => {
-    //TODO: recibe el id del producto y lo actualiza en el archivo
     let productFinded = await this.getProductById(id);
     if (productFinded == undefined) {
       console.log("Producto no encontrado");
@@ -80,6 +79,7 @@ class ProductManager {
 
     let productFinded = this.products.find((p) => p.id == id);
     if (productFinded === undefined) {
+      console.log("Producto no existente en la lista");
       throw new Error("Producto no existente en la lista");
     } else {
       return productFinded;
@@ -102,11 +102,11 @@ class ProductManager {
   };
 
   readFileInit = () => {
-    let contenido = [];
+    let contenido = undefined;
 
     try {
-      let text = fs.readFileSync(this.path, "utf-8");
-      contenido = JSON.parse(text);
+    let text = fs.readFileSync(this.path, "utf-8");
+    contenido = JSON.parse(text);
     } catch (error) {
       console.log(
         "Error al intentar leer el archivo, se inicializara vacio:",
@@ -120,11 +120,11 @@ class ProductManager {
     let contenido = [];
 
     try {
-      let text = fs.writeFileSync(this.path, "utf-8");
-      contenido = JSON.parse(text);
+      contenido = fs.writeFileSync(this.path, JSON.stringify(contenido));
+      //contenido = JSON.parse(text);
     } catch (error) {
       console.log(
-        "Error al intentar leer el archivo, se inicializara vacio:",
+        "Error al intentar escribir el archivo, se inicializara vacio:",
         error.message
       );
     }
@@ -145,6 +145,7 @@ class ProductManager {
     try {
       const data = JSON.stringify(dataBase);
       await fs.promises.writeFile(this.path, data);
+      console.log('archivo creado');
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -167,4 +168,4 @@ class ProductManager {
   };
 }
 
-module.exports.ProductManager = ProductManager;
+module.exports = ProductManager;

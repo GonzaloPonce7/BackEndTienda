@@ -1,8 +1,10 @@
-const {ProductManager} = require('./services/ProductManager')
+const ProductManager = require('./services/ProductManager')
+const CartsManager = require('./services/CartsManager')
 
 // Main
 
-let manager = new ProductManager();
+let productsManager = new ProductManager();
+let cartsManager = new CartsManager();
 // console.log("Se instancio la clase Manager");
 
 // let p1 = new Product("birra", "birra", 15, "tuviejha", 20, "asd")
@@ -26,4 +28,4 @@ let manager = new ProductManager();
 // // manager.addProduct(new Product("...."));
 
 // // manager.print()
-module.exports = manager
+module.exports = {productsManager, cartsManager}
