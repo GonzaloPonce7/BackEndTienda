@@ -1,8 +1,13 @@
-const express = require("express");
+import express from 'express'
+import { productsManager } from '../test.js';
+import { Product } from '../models/Product.js';
+//const express = require("express");
+//const {productsManager} = require("../test");
+//const Product = require("../models/Product");
+
+
 const router = express.Router();
-const {productsManager} = require("../test");
-const Product = require("../models/Product");
-const res = require("express/lib/response");
+
 
 //Esta es la ruta raiz de /api/products
 router.get("/", async (req, res) => {
@@ -58,6 +63,10 @@ router.post("/", async (req, res) => {
       error: "Uno o mas de los campos no existe o es erroneo",
       });
   }
+
+  req.app
+  .get("io")
+  .sockets.emit("products", await productManager.getProducts());
 });
 
 router.put('/:pid', async (req , res) => {
@@ -129,4 +138,5 @@ function validateProduct(product) {
   return false;
 }
 
-module.exports = router;
+//module.exports = router;
+export  {router}

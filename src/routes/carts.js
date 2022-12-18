@@ -1,7 +1,10 @@
-const express = require("express");
-const res = require("express/lib/response");
+import  express  from "express";
+import {cartsManager, productsManager} from '../test.js'
+//const express = require("express");
+//const {cartsManager, productsManager}  = require("../test");
+
+
 const router = express.Router();
-const {cartsManager, productsManager}  = require("../test");
 
 
 router.get("/:cid", async (req, res) => {
@@ -36,4 +39,5 @@ router.post("/:cid/product/:pid", async (req, res) => {
   }
 });
 
-module.exports = router;
+//module.exports = router;
+export {router}

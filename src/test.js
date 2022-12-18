@@ -1,5 +1,8 @@
-const ProductManager = require('./services/ProductManager')
-const CartsManager = require('./services/CartsManager')
+import { ProductManager } from './services/ProductManager.js';
+import { CartsManager } from './services/CartsManager.js'; 
+
+//const ProductManager = require('./services/ProductManager')
+//const CartsManager = require('./services/CartsManager')
 
 // Main
 
@@ -28,4 +31,5 @@ let cartsManager = new CartsManager();
 // // manager.addProduct(new Product("...."));
 
 // // manager.print()
-module.exports = {productsManager, cartsManager}
+//module.exports = {productsManager, cartsManager}
+export {productsManager, cartsManager};

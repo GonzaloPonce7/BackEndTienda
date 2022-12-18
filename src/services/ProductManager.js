@@ -1,9 +1,13 @@
-const { Product } = require("../models/Product");
-const fs = require("fs");
-const pathModule = require('path')
+import fs from 'fs'
+import pathModule from 'path';
+import {Product} from '../models/Product.js';
+import __dirname from '../utils.js';
+//const { Product } = require("../models/Product");
+//const fs = require("fs");
+//const pathModule = require('path')
 
 class ProductManager {
-  constructor(path = pathModule.resolve(__dirname, "../db/productos.json")) {
+  constructor(path = (__dirname + "../db/productos.json")) {
     this.path = path;
     this.products = this.readFileInit(path) || this.writeFileInit(path);
   }
@@ -168,4 +172,5 @@ class ProductManager {
   };
 }
 
-module.exports = ProductManager;
+//module.exports = ProductManager;
+export {ProductManager};

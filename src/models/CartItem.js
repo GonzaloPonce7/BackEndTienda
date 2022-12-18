@@ -5,4 +5,5 @@ class CartItem {
     }
 }
 
-module.exports = CartItem
+//module.exports = CartItem
+export {CartItem}

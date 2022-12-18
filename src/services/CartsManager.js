@@ -1,10 +1,15 @@
-const fs = require("fs");
-const pathModule = require('path')
-const  Cart  = require("../models/Cart");
-const  CartItem  = require("../models/CartItem");
+import fs from 'fs'
+import pathModule from 'path'
+import { Cart } from '../models/Cart.js';
+import { CartItem } from '../models/CartItem.js';
+
+//const fs = require("fs");
+//const pathModule = require('path')
+//const  Cart  = require("../models/Cart");
+//const  CartItem  = require("../models/CartItem");
 
 class CartsManager {
-  constructor(path = pathModule.resolve(__dirname, "../db/carritos.json")) {
+  constructor(path = (__dirname + "../db/carritos.json")) {
     this.path = path;
     this.carts = this.readFileInit(path) || this.writeFileInit(path);
   }
@@ -98,4 +103,5 @@ class CartsManager {
   };
 }
 
-module.exports = CartsManager;
+//module.exports = CartsManager;
+export {CartsManager};
