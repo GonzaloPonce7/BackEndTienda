@@ -1,6 +1,6 @@
 import __dirname from './utils.js';
 import  express  from 'express';
-import handlebars from 'handlebars';
+import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import {viewsRouter} from './routes/views.router.js'
 import {router as productsRoute } from './routes/products.js';

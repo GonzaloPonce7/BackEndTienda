@@ -7,7 +7,7 @@ import __dirname from '../utils.js';
 //const pathModule = require('path')
 
 class ProductManager {
-  constructor(path = (__dirname + "../db/productos.json")) {
+  constructor(path = (__dirname + "/db/productos.json")) {
     this.path = path;
     this.products = this.readFileInit(path) || this.writeFileInit(path);
   }
