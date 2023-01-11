@@ -1,11 +1,22 @@
 import  express  from "express";
 import {cartsManager, productsManager} from '../test.js'
+import { CartDao } from "../dao/CartDao.js";
 //const express = require("express");
 //const {cartsManager, productsManager}  = require("../test");
 
 
 const router = express.Router();
 
+
+router.get("/", async (req, res) => {
+  const products = await CartDao.getAll();
+  res.status(200).json(products)
+});
+
+router.post('/', async (req, res) => {
+  const product = await CartDao.post(req.body);
+  res.status(200).json(product)
+})
 
 router.get("/:cid", async (req, res) => {
   const cid = req.params.cid;
@@ -17,14 +28,14 @@ router.get("/:cid", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  try {
-    const newCart = await cartsManager.createCart()
-    res.status(200).send(`Se creo un carrito con el id: ${newCart.id}`)
-  } catch (error) {
-    res.status(404).send({ status: "error", error: " Error interno: No se pudo crear el carrito" });
-  }
-});
+// router.post("/", async (req, res) => {
+//   try {
+//     const newCart = await cartsManager.createCart()
+//     res.status(200).send(`Se creo un carrito con el id: ${newCart.id}`)
+//   } catch (error) {
+//     res.status(404).send({ status: "error", error: " Error interno: No se pudo crear el carrito" });
+//   }
+// });
 
 router.post("/:cid/product/:pid", async (req, res) => {
   const cid = req.params.cid;

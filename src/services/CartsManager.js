@@ -1,7 +1,7 @@
 import fs from 'fs'
 import pathModule from 'path'
-import { Cart } from '../models/Cart.js';
-import { CartItem } from '../models/CartItem.js';
+import { Cart } from '../dao/Cart.js';
+import { CartItem } from '../dao/CartItem.js';
 import __dirname from '../utils.js';
 
 

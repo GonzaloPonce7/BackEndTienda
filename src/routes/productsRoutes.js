@@ -1,6 +1,7 @@
 import express from 'express'
 import { productsManager } from '../test.js';
-import { Product } from '../models/Product.js';
+import { Product } from '../dao/Product.js';
+import { ProductDao } from '../dao/ProductDao.js';
 //const express = require("express");
 //const {productsManager} = require("../test");
 //const Product = require("../models/Product");
@@ -9,65 +10,77 @@ import { Product } from '../models/Product.js';
 const router = express.Router();
 
 
-//Esta es la ruta raiz de /api/products
+// //Esta es la ruta raiz de /api/products
+// router.get("/", async (req, res) => {
+//   let limit = req.query.limit;
+//   let products = await productsManager.getProducts();
+//   if (limit) {
+//     if (!isNaN(limit) && limit >= 1 && limit <= products.length) {
+//       res.status(200).send({ products: products.slice(0, limit) });
+//     } else {
+//       res.status(400).send({ status: "error", error: "Valores incorrectos" });
+//     }
+//   } else {
+//     res.status(200).send({ products: products });
+//   }
+// });
+
 router.get("/", async (req, res) => {
-  let limit = req.query.limit;
-  let products = await productsManager.getProducts();
-  if (limit) {
-    if (!isNaN(limit) && limit >= 1 && limit <= products.length) {
-      res.status(200).send({ products: products.slice(0, limit) });
-    } else {
-      res.status(400).send({ status: "error", error: "Valores incorrectos" });
-    }
-  } else {
-    res.status(200).send({ products: products });
-  }
+  const products = await ProductDao.getAll();
+  res.status(200).json(products)
 });
 
-router.get("/:pid", async (req, res) => {
-  const pid = req.params.pid;
-  let product;
-  try {
-    product = await productsManager.getProductById(pid);
+router.post('/', async (req, res) => {
+  const product = await ProductDao.post(req.body);
+  res.status(200).json(product)
+})
 
-    res.status(200).send({ product: product });
-  } catch (error) {
-    res.status(404).send({ status: "error", error: error.message });
-  }
-});
 
-router.post("/", async (req, res) => {
-  const product = req.body;
 
-  if (validateProduct(product)) {
-    try {
-      await productsManager.addProduct(
-        new Product(
-          product.title,
-          product.description,
-          product.price,
-          product.thumbnail,
-          product.stock,
-          product.code,
-          product.status,
-          product.category
-        )
-      );
-      res.status(200).send({ product: product });
-    } catch (error) {
-      res.status(400).send({ status: "error", error: error.message });
-    }
-  } else {
-    res.status(400).send({
-      status: "error",
-      error: "Uno o mas de los campos no existe o es erroneo",
-      });
-  }
+// router.get("/:pid", async (req, res) => {
+//   const pid = req.params.pid;
+//   let product;
+//   try {
+//     product = await productsManager.getProductById(pid);
 
-  req.app
-  .get("io")
-  .sockets.emit("products", await productManager.getProducts());
-});
+//     res.status(200).send({ product: product });
+//   } catch (error) {
+//     res.status(404).send({ status: "error", error: error.message });
+//   }
+// });
+
+// router.post("/", async (req, res) => {
+//   const product = req.body;
+
+//   if (validateProduct(product)) {
+//     try {
+//       await productsManager.addProduct(
+//         new Product(
+//           product.title,
+//           product.description,
+//           product.price,
+//           product.thumbnail,
+//           product.stock,
+//           product.code,
+//           product.status,
+//           product.category
+//         )
+//       );
+//       res.status(200).send({ product: product });
+//     } catch (error) {
+//       res.status(400).send({ status: "error", error: error.message });
+//     }
+//   } else {
+//     res.status(400).send({
+//       status: "error",
+//       error: "Uno o mas de los campos no existe o es erroneo",
+//       });
+//   }
+
+//   req.app
+//   .get("io")
+//   .sockets.emit("products", await productManager.getProducts());
+// });
 
 router.put('/:pid', async (req , res) => {
 	const pid = req.params.pid;

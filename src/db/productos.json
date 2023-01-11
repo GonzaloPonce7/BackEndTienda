@@ -1,1 +1,68 @@
-[{"id":1,"title":"birra","description":"birra","price":15,"thumbnail":"tuviejha","stock":20,"code":"asd","status":true,"category":"birra"},{"id":2,"title":"birra","description":"fea","price":15,"thumbnail":"tuviejha","stock":20,"code":"wer","status":true,"category":"birra"},{"id":3,"title":"birra","description":"masomenos","price":15,"thumbnail":"tuviejhahh","stock":20,"code":"rew","status":true,"category":"birra"},{"id":4,"title":"birra","description":"estabien","price":15,"thumbnail":"tuhermana","stock":20,"code":"bgt","status":false,"category":"birra"},{"id":5,"title":"birra roja","description":"birra poderosa","price":20,"thumbnail":"tuviejo","stock":25,"code":"jejejejje","status":true,"category":"birra"},{"id":6,"title":"birra rubia","description":"birra de verano","price":20,"thumbnail":"tuhermano","stock":21,"code":"jijij","status":true,"category":"birra"}]
+[
+    {
+        "id": 1,
+        "title": "birra",
+        "description": "birra",
+        "price": 15,
+        "thumbnail": "tuviejha",
+        "stock": 20,
+        "code": "asd",
+        "status": true,
+        "category": "birra"
+    },
+    {
+        "id": 2,
+        "title": "birra",
+        "description": "fea",
+        "price": 15,
+        "thumbnail": "tuviejha",
+        "stock": 20,
+        "code": "wer",
+        "status": true,
+        "category": "birra"
+    },
+    {
+        "id": 3,
+        "title": "birra",
+        "description": "masomenos",
+        "price": 15,
+        "thumbnail": "tuviejhahh",
+        "stock": 20,
+        "code": "rew",
+        "status": true,
+        "category": "birra"
+    },
+    {
+        "id": 4,
+        "title": "birra",
+        "description": "estabien",
+        "price": 15,
+        "thumbnail": "tuhermana",
+        "stock": 20,
+        "code": "bgt",
+        "status": false,
+        "category": "birra"
+    },
+    {
+        "id": 5,
+        "title": "birra roja",
+        "description": "birra poderosa",
+        "price": 20,
+        "thumbnail": "tuviejo",
+        "stock": 25,
+        "code": "jejejejje",
+        "status": true,
+        "category": "birra"
+    },
+    {
+        "id": 6,
+        "title": "birra rubia",
+        "description": "birra de verano",
+        "price": 20,
+        "thumbnail": "tuhermano",
+        "stock": 21,
+        "code": "jijij",
+        "status": true,
+        "category": "birra"
+    }
+]
