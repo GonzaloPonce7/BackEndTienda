@@ -1,6 +1,12 @@
 <div>
     <h1 class="title">Lista de productos</h1>
 
+
+    <form action="/products">
+        Buscar: <input type="text" name="query" value="{{query}}"> 
+        <input type="submit" value="Buscar">
+    </form>
+
     <table class="product-list">
         <tr>
             <th>Título</th>

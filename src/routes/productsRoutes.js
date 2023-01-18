@@ -1,14 +1,49 @@
-import express from 'express'
-import { productsManager } from '../test.js';
-import { Product } from '../dao/Product.js';
-import { ProductDao } from '../dao/ProductDao.js';
+import express from "express";
+import { ProductDao } from "../dao/ProductDao.js";
+// import { productsManager } from '../test.js';
+// import { Product } from '../dao/Product.js';
 //const express = require("express");
 //const {productsManager} = require("../test");
 //const Product = require("../models/Product");
 
-
 const router = express.Router();
 
+
+router.get("/", async (req, res) => {
+  let page = req.query.page;
+  let limit = req.query.limit;
+  let sort = req.query.sort;
+
+  let filter = {};
+
+  if (req.query.title) filter.title = req.query.title;
+  if (req.query.description) filter.description = req.query.description;
+  if (req.query.price) filter.price = req.query.price;
+  if (req.query.stock) filter.stock = req.query.stock;
+  if (req.query.code) filter.code = req.query.code;
+  if (req.query.status) filter.status = req.query.status;
+  if (req.query.category) filter.category = req.query.category;
+
+  const products = await ProductDao.getFiltered(filter, page, limit, sort)
+  res.status(200).json(products);
+});
+
+router.get("/:pid", async (req, res) => {
+  const pid = req.params.pid;
+  const product = await ProductDao.getById(pid);
+  res.status(200).json(product);
+});
+
+router.delete("/:pid", async (req, res) => {
+  const pid = req.params.pid;
+  await ProductDao.deleteById(pid);
+  res.status(200).send('Producto borrado');
+});
+
+router.post("/", async (req, res) => {
+  const product = await ProductDao.post(req.body);
+  res.status(200).json(product);
+});
 
 // //Esta es la ruta raiz de /api/products
 // router.get("/", async (req, res) => {
@@ -24,18 +59,6 @@ const router = express.Router();
 //     res.status(200).send({ products: products });
 //   }
 // });
-
-router.get("/", async (req, res) => {
-  const products = await ProductDao.getAll();
-  res.status(200).json(products)
-});
-
-router.post('/', async (req, res) => {
-  const product = await ProductDao.post(req.body);
-  res.status(200).json(product)
-})
-
-
 
 // router.get("/:pid", async (req, res) => {
 //   const pid = req.params.pid;
@@ -82,74 +105,73 @@ router.post('/', async (req, res) => {
 //   .sockets.emit("products", await productManager.getProducts());
 // });
 
-router.put('/:pid', async (req , res) => {
-	const pid = req.params.pid;
-	const product = req.body;
+// router.put('/:pid', async (req , res) => {
+// 	const pid = req.params.pid;
+// 	const product = req.body;
 
-	let productValid = validateProductUpdate(product)
-	try {
-		productsManager.updateProduct(pid, productValid)
-		res.status(200).send({product: productValid})
-	} catch (error) {
-		res.status(400).send({ status: "error", error: error.message });
-	}
+// 	let productValid = validateProductUpdate(product)
+// 	try {
+// 		productsManager.updateProduct(pid, productValid)
+// 		res.status(200).send({product: productValid})
+// 	} catch (error) {
+// 		res.status(400).send({ status: "error", error: error.message });
+// 	}
+// })
 
-})
+// router.delete('/:pid', async(req, res) => {
+// 	const pid = req.params.pid;
 
-router.delete('/:pid', async(req, res) => {
-	const pid = req.params.pid;
+// 	try {
+// 		productsManager.deleteProduct(pid)
+// 		res.status(200).send('Producto borrado')
+// 	} catch (error) {
+// 		res.status(400).send({ status: "error", error: error.message });
+// 	}
+// })
 
-	try {
-		productsManager.deleteProduct(pid)
-		res.status(200).send('Producto borrado')
-	} catch (error) {
-		res.status(400).send({ status: "error", error: error.message });
-	}
-})
+// function validateProductUpdate(productJson) {
+// 	let title, description, price, thumbnail, stock, code, status, category
+// 	if (typeof productJson.title == "string") {
+// 		title = productJson.title;
+// 	}
+// 	if (typeof productJson.description == "string") {
+// 		description = productJson.description;
+// 	}
+// 	if (typeof product.price == "number") {
+// 		price = productJson.price;
+// 	}
+// 	if (typeof product.thumbnail == "string") {
+// 		thumbnail = productJson.thumbnail;
+// 	}
+// 	if (typeof product.stock == "number") {
+// 		stock = productJson.stock;
+// 	}
+// 	if (typeof product.code == "string") {
+// 		code = productJson.code;
+// 	}
+// 	if (typeof product.status == "boolean") {
+// 		status = productJson.status;
+// 	}
+// 	if (typeof product.category == "string") {
+// 		category = productJson.category;
+// 	}
+// 	return new Product(title, description, price, thumbnail, stock, code, status, category)
+// }
 
-function validateProductUpdate(productJson) {
-	let title, description, price, thumbnail, stock, code, status, category
-	if (typeof productJson.title == "string") {
-		title = productJson.title;
-	}
-	if (typeof productJson.description == "string") {
-		description = productJson.description;
-	}
-	if (typeof product.price == "number") {
-		price = productJson.price;
-	}
-	if (typeof product.thumbnail == "string") {
-		thumbnail = productJson.thumbnail;
-	}
-	if (typeof product.stock == "number") {
-		stock = productJson.stock;
-	}
-	if (typeof product.code == "string") {
-		code = productJson.code;
-	}
-	if (typeof product.status == "boolean") {
-		status = productJson.status;
-	}
-	if (typeof product.category == "string") {
-		category = productJson.category;
-	}
-	return new Product(title, description, price, thumbnail, stock, code, status, category)
-}
-
-function validateProduct(product) {
-  if (
-    typeof product.title == "string" &&
-    typeof product.description == "string" &&
-    typeof product.code == "string" &&
-    typeof product.price == "number" &&
-    typeof product.status == "boolean" &&
-    typeof product.stock == "number" &&
-    typeof product.category == "string"
-  ) {
-    return true;
-  }
-  return false;
-}
+// function validateProduct(product) {
+//   if (
+//     typeof product.title == "string" &&
+//     typeof product.description == "string" &&
+//     typeof product.code == "string" &&
+//     typeof product.price == "number" &&
+//     typeof product.status == "boolean" &&
+//     typeof product.stock == "number" &&
+//     typeof product.category == "string"
+//   ) {
+//     return true;
+//   }
+//   return false;
+// }
 
 //module.exports = router;
-export  {router}
+export { router };

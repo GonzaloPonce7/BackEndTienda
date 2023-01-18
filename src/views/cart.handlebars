@@ -1,0 +1,11 @@
+<h1>Carrito {{carts._id}}</h1>
+
+<div>
+    <b>{{carts.date}}</b>
+    {{#if products.length}}
+        {{#each products}}
+            <i>{{carts.products}}</i>
+            <i>{{carts.quantity}}</i>
+        {{/each}}
+    {{/if}}
+</div>
