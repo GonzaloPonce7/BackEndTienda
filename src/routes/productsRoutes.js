@@ -9,6 +9,8 @@ import { ProductDao } from "../dao/ProductDao.js";
 const router = express.Router();
 
 
+//TODO: darle funcionalidad al buscador de productos de home
+
 router.get("/", async (req, res) => {
   let page = req.query.page;
   let limit = req.query.limit;

@@ -12,47 +12,47 @@
     },
     {
         "id": 2,
-        "title": "birra",
-        "description": "fea",
-        "price": 15,
-        "thumbnail": "tuviejha",
+        "title": "birra negra",
+        "description": "fuerte",
+        "price": 150,
+        "thumbnail": "todaviano",
         "stock": 20,
         "code": "wer",
         "status": true,
-        "category": "birra"
+        "category": "cerveza"
     },
     {
         "id": 3,
-        "title": "birra",
-        "description": "masomenos",
-        "price": 15,
-        "thumbnail": "tuviejhahh",
+        "title": "birra rubia",
+        "description": "suave",
+        "price": 200,
+        "thumbnail": "faltaparaesto",
         "stock": 20,
         "code": "rew",
         "status": true,
-        "category": "birra"
+        "category": "cerveza"
     },
     {
         "id": 4,
-        "title": "birra",
-        "description": "estabien",
-        "price": 15,
-        "thumbnail": "tuhermana",
+        "title": "birra roja",
+        "description": "comunista",
+        "price": 100,
+        "thumbnail": "yaverequehago",
         "stock": 20,
         "code": "bgt",
         "status": false,
-        "category": "birra"
+        "category": "cerveza"
     },
     {
         "id": 5,
-        "title": "birra roja",
-        "description": "birra poderosa",
-        "price": 20,
-        "thumbnail": "tuviejo",
+        "title": "birra roja scotch",
+        "description": "fuerte y espeza",
+        "price": 250,
+        "thumbnail": "porloprontonada",
         "stock": 25,
-        "code": "jejejejje",
+        "code": "tre",
         "status": true,
-        "category": "birra"
+        "category": "cerveza"
     },
     {
         "id": 6,

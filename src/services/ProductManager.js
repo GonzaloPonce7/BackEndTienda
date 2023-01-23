@@ -1,6 +1,6 @@
 import fs from 'fs'
 import pathModule from 'path';
-import {Product} from '../dao/Product.js';
+import {Product} from '../dao/daoFs/Product.js';
 import __dirname from '../utils.js';
 //const { Product } = require("../models/Product");
 //const fs = require("fs");
