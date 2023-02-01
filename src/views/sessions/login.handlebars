@@ -1,8 +1,25 @@
 <h1>Iniciar Session</h1>
 
+<h2>Log con cuenta de la store</h2>
 <form action="/sessions/login" method="post" >
     Email: <input type="text" name="email"><br>
     Password: <input type="text" name="password"><br><br>
+
+    <input type="submit" value="Iniciar Session">
+</form>
+
+<h2>Log con Github</h2>
+<form action="/sessions/login_github" method="get" >
+    {{!-- Email: <input type="text" name="email"><br>
+    Password: <input type="text" name="password"><br><br> --}}
+
+    <input type="submit" value="Iniciar Session">
+</form>
+
+<h2>Log con cuenta de Google</h2>
+<form action="/sessions/login_google" method="get" >
+    {{!-- Email: <input type="text" name="email"><br>
+    Password: <input type="text" name="password"><br><br> --}}
 
     <input type="submit" value="Iniciar Session">
 </form>

@@ -12,7 +12,7 @@
     },
     {
         "id": 2,
-        "title": "birra negra",
+        "title": "birraNegra",
         "description": "fuerte",
         "price": 150,
         "thumbnail": "todaviano",
@@ -23,7 +23,7 @@
     },
     {
         "id": 3,
-        "title": "birra rubia",
+        "title": "birraRubia",
         "description": "suave",
         "price": 200,
         "thumbnail": "faltaparaesto",
@@ -56,13 +56,13 @@
     },
     {
         "id": 6,
-        "title": "birra rubia",
+        "title": "birra rubia liviana",
         "description": "birra de verano",
-        "price": 20,
-        "thumbnail": "tuhermano",
+        "price": 200,
+        "thumbnail": "masadelante",
         "stock": 21,
-        "code": "jijij",
+        "code": "bfg",
         "status": true,
-        "category": "birra"
+        "category": "cerveza"
     }
 ]

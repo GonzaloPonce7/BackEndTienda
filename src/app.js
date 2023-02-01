@@ -11,8 +11,10 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { sessionRouter } from './routes/sessionsRoutes.js';
 import { auth } from './dao/UsersDao.js';
-import bodyParser from 'body-parser';
+import passport from 'passport'
 import path from "path";
+import { initPassport } from './config/passportConfig.js';
+import {generateToken, authToken} from './utils.js'
 
 
 const app = express();
@@ -37,18 +39,18 @@ app.use(session({
   saveUninitialized: true
 }))
 
+initPassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
-app.set("views", path.join(process.cwd() + "/src/views"));
-app.set('views engine', 'handlebars')
+//app.set("views", path.join(process.cwd() + "/src/views"));
+app.set('view engine', 'handlebars')
 app.set("io", io);
 
 

@@ -12,9 +12,9 @@ const router = express.Router();
 //TODO: darle funcionalidad al buscador de productos de home
 
 router.get("/", async (req, res) => {
-  let page = req.query.page;
-  let limit = req.query.limit;
-  let sort = req.query.sort;
+  let page = req.query.page || req.query.page;
+  let limit = req.query.limit || req.body.limit;
+  let sort = req.query.sort || req.body.sort;
 
   let filter = {};
 

@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
-import mongoosePaginate from 'mongoose-paginate-v2'
 
 const UsersCollection = 'users'
 
 const UsersSchema = new mongoose.Schema({
     //id : String,
-    fist_name: String,
+    first_name: String,
     last_name: String,
-    email: String,
-    age: Number,
+    email: {
+        type: String,
+        unique: true
+    },
     password: String
 })
 
