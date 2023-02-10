@@ -6,6 +6,11 @@ import passport from 'passport'
 
 const router = Router();
 
+router.param('word', (req, res, next, word) => {
+    if(!word) req.word = null
+    else req.params.word = word.toLowerCase()
+})
+
 // Vista de login
 router.get('/login', async (req, res) => {
     res.render('sessions/login', {})

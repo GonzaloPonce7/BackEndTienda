@@ -18,6 +18,8 @@ const PRIVATE_KEY = 'asd123'
 //hashSync: toma el password y salt para "hashear"
 //genSaltSync: Genera un salt (un string aleatorio)
 //El password no se puede volver a obtener por ningun metodo. Irreversible.
+
+
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 export const isValidPassword = (user, password) => {
     return bcrypt.compare(password, user.password)
@@ -30,6 +32,9 @@ export const generateToken = (user) => {
 }
 
 export const authToken = (req, res, next) => {
+    //const authToken = req.cookies.esensiaToken
+
+    
     const authHeaders = req.headers.auth
     if(!authHeaders) {
         return res.status(401).send({error: 'Sin autorizacion'})

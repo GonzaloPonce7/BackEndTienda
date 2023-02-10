@@ -10,7 +10,19 @@ const UsersSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    password: String
+    password: String,
+    role: {
+        type: String,
+        default: 'user'
+    },
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'carts'
+    }
+})
+
+UsersSchema.pre('find', function() {
+    this.populate('carts')
 })
 
 const usersModel = mongoose.model(UsersCollection, UsersSchema)
