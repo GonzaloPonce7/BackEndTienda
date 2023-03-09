@@ -19,8 +19,10 @@
     "commmander": "^0.0.1-security",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-compression": "^1.0.2",
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
     "handlebars": "^4.7.7",
@@ -28,6 +30,7 @@
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.2",
     "mongoose-paginate-v2": "^1.7.1",
+    "nodemailer": "^6.9.1",
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
@@ -35,6 +38,7 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "session-file-store": "^1.5.0",
-    "socket.io": "^4.5.4"
+    "socket.io": "^4.5.4",
+    "twilio": "^4.8.0"
   }
 }

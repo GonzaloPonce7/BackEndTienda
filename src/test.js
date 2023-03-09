@@ -1,13 +1,13 @@
-import { ProductManager } from './services/ProductManager.js';
-import { CartsManager } from './services/CartsManager.js'; 
+// import { ProductManager } from './services/servicesFS/ProductManager.js';
+// import { CartsManager } from './services/servicesFS/CartsManager.js'; 
 
 //const ProductManager = require('./services/ProductManager')
 //const CartsManager = require('./services/CartsManager')
 
 // Main
 
-let productsManager = new ProductManager();
-let cartsManager = new CartsManager();
+//let productsManager = new ProductManager();
+//let cartsManager = new CartsManager();
 // console.log("Se instancio la clase Manager");
 
 // let p1 = new Product("birra", "birra", 15, "tuviejha", 20, "asd")
@@ -32,4 +32,4 @@ let cartsManager = new CartsManager();
 
 // // manager.print()
 //module.exports = {productsManager, cartsManager}
-export {productsManager, cartsManager};
+//export {productsManager, cartsManager};

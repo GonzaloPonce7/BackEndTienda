@@ -1,8 +1,8 @@
 import fs from 'fs'
 import pathModule from 'path'
-import { Cart } from '../dao/daoFs/Cart.js';
-import { CartItem } from '../dao/daoFs/CartItem.js';
-import __dirname from '../utils.js';
+import { Cart } from '../../dao/daoFs/Cart.js';
+import { CartItem } from '../../dao/daoFs/CartItem.js';
+import __dirname from '../../utils.js';
 
 
 //const fs = require("fs");

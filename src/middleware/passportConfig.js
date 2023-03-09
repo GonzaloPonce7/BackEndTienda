@@ -1,11 +1,12 @@
 import passport from 'passport'
 import local from 'passport-local'
 import { createHash, isValidPassword } from "../utils.js";
-import { usersModel } from '../dao/models/UsersModels.js';
 import GitHubStrategy from 'passport-github2'
 import GoogleStrategy from 'passport-google-oauth2'
+import { UsersDao } from '../dao/UsersDao.js';
 
 const LocalStrategy = local.Strategy
+const usersDao = new UsersDao()
 
 const initPassport = () => {
 
@@ -20,7 +21,7 @@ const initPassport = () => {
             console.log(profile);
 
             try {
-                const user = await usersModel.findOne({email: profile._json.email})
+                const user = await usersDao.find(profile._json.email)
                 if(user) {
                     console.log('Usuario  existente');
                     return done(null, user)
@@ -32,7 +33,7 @@ const initPassport = () => {
                     email: profile._json.email,
                     password: ''
                 }
-                const result = await usersModel.create(newUser)
+                const result = await usersDao.create(newUser)
                 return done(null, result)
             } catch (error) {
                 return done('Error de login con google' + error)
@@ -51,10 +52,10 @@ const initPassport = () => {
             console.log(profile); 
 
             try {
-                const user = await usersModel.findOne({email: profile._json.email})
+                const user = await usersDao.find(profile._json.email)
                 if (user) {
                     console.log('Usuario existente');
-                    return done
+                    return done(null, user);
                 }
 
                 const newUser = {
@@ -63,7 +64,7 @@ const initPassport = () => {
                     email: profile._json.email,
                     password: ''
                 }
-                const result = await usersModel.create(newUser)
+                const result = await usersDao.create(newUser)
                 return done(null, result)
             } catch (error) {
                 return done('Error de logueo de github' + error)
@@ -79,7 +80,7 @@ const initPassport = () => {
         async (req, username, password, done) => {
             const {first_name, last_name, email} = req.body
             try{
-                const user = await usersModel.findOne({email: username})
+                const user = await usersDao.find(username)
                 if(user) {
                     console.log('Usuario existente')
                     return done(null, false)
@@ -91,7 +92,7 @@ const initPassport = () => {
                     email,
                     password: createHash(password)
                 }
-                const result = await usersModel.create(newUser)
+                const result = await usersDao.create(newUser)
                 return done(null, result)
             } catch (error) {
                 return done('Error al registrarse ' + error)
@@ -99,12 +100,12 @@ const initPassport = () => {
         }
     ))
 
-    passport.use('login', new LocalStrategy(
+    passport.use('local', new LocalStrategy(
         {usernameField: 'email'},
         async(username, password, done) => {
             const { email } = req.body
             try {
-                const user = await usersModel.findOne({email: username}).lean().exec()
+                const user = await usersDao.find(username)
                 if (!user) {
                     console.error("No existe el usuario")
                     return done(null, false)
@@ -125,7 +126,7 @@ const initPassport = () => {
     })
 
     passport.deserializeUser (async (id, done) => {
-        const user = await usersModel.findById(id)
+        const user = await usersDao.findById(id)
         done(null, user)
     })
 }

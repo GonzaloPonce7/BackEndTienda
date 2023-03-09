@@ -26,7 +26,7 @@ class ProductDao {
     return await productModel.deleteOne({ Title: title }).lean().exec();
   }
 
-  static async post(product) {
+  static async create(product) {
     return await productModel.create(product);
   }
 }

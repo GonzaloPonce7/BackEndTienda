@@ -2,19 +2,19 @@ import __dirname from './utils.js';
 import  express  from 'express';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-import {viewsRouter} from './routes/views.router.js'
+import {viewsRouter} from './routes/views.router.js';
 import {router as productsRoute } from './routes/productsRoutes.js';
 import {router as cartsRoute} from './routes/cartsRoutes.js';
-import { productsManager } from './test.js';
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { sessionRouter } from './routes/sessionsRoutes.js';
-import { auth } from './dao/UsersDao.js';
-import passport from 'passport'
+import passport from 'passport';
 import path from "path";
-import { initPassport } from './config/passportConfig.js';
-import {generateToken, authToken} from './utils.js'
+import { initPassport } from './middleware/passportConfig.js';
+import {generateToken, authToken} from './utils.js';
+import compression from 'express-compression'
+
 
 
 const app = express();
@@ -43,8 +43,10 @@ initPassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
+//app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(compression())
 
 
 app.engine('handlebars', handlebars.engine())
@@ -56,8 +58,8 @@ app.set("io", io);
 
 app.use(express.static(__dirname + '/public'))
 app.use('/', viewsRouter)
-app.use('/api/products', auth, productsRoute)
-app.use('/api/carts', auth, cartsRoute)
+app.use('/api/products', productsRoute)
+app.use('/api/carts', cartsRoute)
 app.use('/sessions', sessionRouter)
 
 io.on('connection', async socket => {

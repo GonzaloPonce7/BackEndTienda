@@ -3,18 +3,14 @@ import { productModel } from '../dao/models/ProductModel.js'
 import { cartModel } from '../dao/models/CartModel.js'
 import { CartDao } from '../dao/CartDao.js'
 import { ProductDao } from '../dao/ProductDao.js'
+import passport from 'passport'
+
 
 
 const router = express.Router()
 
-// Crear una vista en el router de views ‘/products’ para visualizar todos los productos con su respectiva paginación. Cada producto mostrado puede resolverse de dos formas:
-// Llevar a una nueva vista con el producto seleccionado con su descripción completa, detalles de precio, categoría, etc. Además de un botón para agregar al carrito.
-// Contar con el botón de “agregar al carrito” directamente, sin necesidad de abrir una página adicional con los detalles del producto.
-
-// Además, agregar una vista en ‘/carts/:cid (cartId) para visualizar un carrito específico, donde se deberán listar SOLO los productos que pertenezcan a dicho carrito. 
-
-
 router.get('/', async (req, res) => {
+    console.log("entro a raiz");
     let limit = req.query.limit;
     let page = req.query.page;
     let sort = req.query.sort;
@@ -46,6 +42,43 @@ router.get('/cart/:cid', async (req, res) => {
 
     res.render('cart', {cartFinded})
 })
+
+// Vista de login
+router.get('/login', async (req, res) => {
+    res.render('sessions/login', {})
+})
+
+// Vista para registrar usuarios
+router.get('/register', async (req, res) => {
+    res.render('sessions/register', {})
+})
+
+//Vista para fail log
+router.get('/faillogin', (req, res) => {
+    res.json({error: 'Failed login'}).render('sessions/faillogin')
+})
+
+//Vista par el fail register
+router.get('/failregister', async(req, res) => {
+    console.error('Failed Stragtregy');
+    res.send({error: 'Failed'}).render('/sessions/failregister')
+})
+
+router.get(
+    '/login_google',
+    passport.authenticate('google', {scope: ['email', 'profile']}),
+    async (req, res) => {
+        res.render('sessions/login', {})
+    }
+)
+
+router.get(
+    '/login_github',
+    passport.authenticate('github', {scope: ['user:email']}),
+    async (req, res) => {
+        res.render('sessions/login', {})
+    }
+)
 
 // router.get('/', async (req, res) => {
 //     let products = await productsManager.getProducts()
