@@ -6,20 +6,24 @@ export class ProductRepository {
         this.productDao = new ProductDao()
     }
 
-    getById(id) {
-        this.productDao.getById(id)
+    async getById(id) {
+        await this.productDao.getById(id)
     }
 
-    deleteById(id){
-        this.productDao.deleteById(id)
+    async deleteById(id){
+        await this.productDao.deleteById(id)
     }
 
-    create(product) {
-        this.productDao.create(product)
+    async create(product) {
+        await this.productDao.create(product)
     }
 
-    getFiltered(filter, page, limit, sort) {
-        this.productDao.getFiltered(filter, page, limit, sort)
+    async update(product) {
+        await this.productDao.update(product)
+    } 
+
+    async getFiltered(filter, page, limit, sort) {
+        await this.productDao.getFiltered(filter, page, limit, sort)
     }
 
 }

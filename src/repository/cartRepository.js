@@ -5,35 +5,39 @@ export class CartRepository {
         this.cartDao = new CartDao()
     }
 
-    getAll() {
-        this.cartDao.getAll()
+    async getAll() {
+        await this.cartDao.getAll()
     }
 
-    getById(cid) {
-        this.cartDao.getById(cid)
+    async getById(cid) {
+        await this.cartDao.getById(cid)
     }
 
-    createCart(cart) {
-        this.cartDao.createCart(cart)
+    async createCart(cart) {
+        await this.cartDao.createCart(cart)
     }
 
-    deleteById(cid) {
-        this.cartDao.deleteById(cid)
+    async deleteById(cid) {
+        await this.cartDao.deleteById(cid)
     }
 
-    deleteProductInCart(cid, pid) {
-        this.cartDao.deleteProductInCart(cid, pid)
+    async deleteProductInCart(cid, pid) {
+        await this.cartDao.deleteProductInCart(cid, pid)
     }
 
-    deleteAllProducts(cid) {
-        this.cartDao.deleteAllProducts(cid)
+    async deleteAllProducts(cid) {
+        await this.cartDao.deleteAllProducts(cid)
     }
 
-    updateProducts(cid, products) {
-        this.cartDao.updateProducts(cid, products)
+    async updateProducts(cid, products) {
+        await this.cartDao.updateProducts(cid, products)
     }
 
-    modifyQuantity() {
-        this.cartDao.modifyQuantity(cid, pid, quantity)
+    async modifyQuantity() {
+        await this.cartDao.modifyQuantity(cid, pid, quantity)
     }
+
+    async update(cart) {
+        await this.cartDao.update(cart)
+    } 
 }

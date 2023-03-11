@@ -1,6 +1,6 @@
 import {cartModel} from "./models/CartModel.js";
 
-class CartDao {
+export class CartDao {
   static async getAll() {
     return await cartModel.find().lean().exec();
   }
@@ -57,6 +57,8 @@ class CartDao {
   static async createCart(cart) {
     return await cartModel.create(cart);
   }
-}
 
-export { CartDao };
+  static async update(cart) {
+    return await cartModel.replaceOne({_id: cart._id}, cart).lean().exec();
+  }
+}

@@ -18,7 +18,7 @@ import compression from 'express-compression'
 
 
 const app = express();
-const port = 8080;
+const port = 1812;
 const httpServer =  app.listen(port, () => {console.log(`Listening on port ${port}`)});
 const io = new Server(httpServer)
 const MONGO_URL = 'mongodb+srv://esencia:kBK8iqHim9BTWlDU@cluster0.vfdmkug.mongodb.net/?retryWrites=true&w=majority'

@@ -15,7 +15,7 @@ const UsersSchema = new mongoose.Schema({
         type: String,
         default: 'user'
     },
-    cart: {
+    cartId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'carts'
     }

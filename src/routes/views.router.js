@@ -3,7 +3,6 @@ import { productModel } from '../dao/models/ProductModel.js'
 import { cartModel } from '../dao/models/CartModel.js'
 import { CartDao } from '../dao/CartDao.js'
 import { ProductDao } from '../dao/ProductDao.js'
-import passport from 'passport'
 
 
 
@@ -43,51 +42,5 @@ router.get('/cart/:cid', async (req, res) => {
     res.render('cart', {cartFinded})
 })
 
-// Vista de login
-router.get('/login', async (req, res) => {
-    res.render('sessions/login', {})
-})
-
-// Vista para registrar usuarios
-router.get('/register', async (req, res) => {
-    res.render('sessions/register', {})
-})
-
-//Vista para fail log
-router.get('/faillogin', (req, res) => {
-    res.json({error: 'Failed login'}).render('sessions/faillogin')
-})
-
-//Vista par el fail register
-router.get('/failregister', async(req, res) => {
-    console.error('Failed Stragtregy');
-    res.send({error: 'Failed'}).render('/sessions/failregister')
-})
-
-router.get(
-    '/login_google',
-    passport.authenticate('google', {scope: ['email', 'profile']}),
-    async (req, res) => {
-        res.render('sessions/login', {})
-    }
-)
-
-router.get(
-    '/login_github',
-    passport.authenticate('github', {scope: ['user:email']}),
-    async (req, res) => {
-        res.render('sessions/login', {})
-    }
-)
-
-// router.get('/', async (req, res) => {
-//     let products = await productsManager.getProducts()
-
-//     res.render('home', {products})
-// })
-
-// router.get('/realtimeproducts', async (req, res) => {
-//     res.render('realTimeProducts')
-// })
 
 export {router as viewsRouter }

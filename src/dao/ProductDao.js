@@ -29,6 +29,10 @@ class ProductDao {
   static async create(product) {
     return await productModel.create(product);
   }
+
+  static async update(product) {
+    return await productModel.replaceOne({_id: product._id}, product).lean().exec();
+  }
 }
 
 export { ProductDao };

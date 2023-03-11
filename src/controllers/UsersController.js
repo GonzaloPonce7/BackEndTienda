@@ -35,6 +35,6 @@ export class UsersController {
   };
 
   create = async (req, res) => {
-    res.send("Se registro correctamente").redirect("/sessions/login");
+    res.status(200).redirect("/sessions/login")//.redirect("/sessions/login");
   };
 }

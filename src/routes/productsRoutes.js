@@ -5,7 +5,6 @@ import { validateRoles } from "../middleware/validateUsers.js";
 const router = Router();
 const productController = new ProductController()
 
-
 //TODO: darle funcionalidad al buscador de productos de home
 
 router.get("/", productController.getFiltered)

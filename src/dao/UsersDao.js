@@ -15,6 +15,6 @@ export class UsersDao {
   }
 
   async findByCartId(cid) {
-    return await usersModel.findOne({cart: cid}).lean().exec()
+    return await usersModel.findOne({cartId: cid}).lean().exec()
   }
 }
