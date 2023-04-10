@@ -1,4 +1,4 @@
-import { productModel } from "./models/ProductModel.js";
+import { productModel } from "../models/ProductModel.js";
 
 class ProductDao {
   static async getAll() {

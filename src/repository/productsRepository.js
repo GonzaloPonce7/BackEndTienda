@@ -1,4 +1,4 @@
-import { ProductDao } from "../dao/ProductDao.js"
+import { ProductDao } from "../dao/daoMongo/ProductDao.js"
 
 export class ProductRepository {
 

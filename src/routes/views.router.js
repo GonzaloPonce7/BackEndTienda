@@ -1,8 +1,8 @@
 import express from 'express'
 import { productModel } from '../dao/models/ProductModel.js'
 import { cartModel } from '../dao/models/CartModel.js'
-import { CartDao } from '../dao/CartDao.js'
-import { ProductDao } from '../dao/ProductDao.js'
+import { CartDao } from '../dao/daoMongo/CartDao.js'
+import { ProductDao } from '../dao/daoMongo/ProductDao.js'
 
 
 

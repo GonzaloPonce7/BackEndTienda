@@ -1,0 +1,11 @@
+<div>
+    <h1>Lista de usuarios registrados</h1>
+    {{#if users.length}}
+        {{#each users}}
+            <i>{{users._id}}</i>
+            <i>{{users.email}}</i>
+            <i>{{users.role}}</i>
+            <i>{{users.cartId}}</i>
+        {{/each}}
+    {{/if}}
+</div>

@@ -1,4 +1,4 @@
-import { TicketDao } from "../dao/TicketDao.js";
+import { TicketDao } from "../dao/daoMongo/TicketDao.js";
 
 export class TicketRepository {
 

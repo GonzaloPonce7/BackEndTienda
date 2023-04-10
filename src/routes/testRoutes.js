@@ -1,14 +1,9 @@
 import { Router } from "express";
-import { addLogger } from "../logger/index.js";
-
+import { faker } from '@faker-js/faker';
 
 const router = Router();
 
-router.get('/loggerTest', (req, res, next) => {
-
-})
-
-router.get('/user',(req,res)=>{
+router.get('/user',(req, res)=>{
     let first_name = faker.name.firstName();
     let last_name = faker.name.lastName();
     let email = faker.internet.email();

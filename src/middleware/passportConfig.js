@@ -3,7 +3,9 @@ import local from 'passport-local'
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from 'passport-github2'
 import GoogleStrategy from 'passport-google-oauth2'
-import { UsersDao } from '../dao/UsersDao.js';
+import { UsersDao } from '../dao/daoMongo/UsersDao.js';
+import { addLogger } from '../logger/index.js';
+import config from '../config/config.js';
 
 const LocalStrategy = local.Strategy
 const usersDao = new UsersDao()
@@ -12,8 +14,8 @@ const initPassport = () => {
 
     passport.use('google', new GoogleStrategy(
         {
-            clientID: '27281791633-dc0bt9nqc9o2riajien1uvchgbk2clac.apps.googleusercontent.com',
-            clientSecret: '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',
+            clientID: config.clientIDGoogle,
+            clientSecret: config.clientSecretGoggle,
             callbackURL: 'http://localhost:8080/sessions/googlecallback',
             passReqToCallback: true
         },
@@ -43,8 +45,8 @@ const initPassport = () => {
 
     passport.use('github', new GitHubStrategy(
         {
-            clientID: "Iv1.a78369e0858dcb88",
-            clientSecret: "de5a7d01ce6361079c9a3ddd5977d4f4fedc2ab4",
+            clientID: config.clientIDGithub,
+            clientSecret: config.clientSecretGithub,
             callbackURL: "http://localhost:8080/sessions/githubcallback",
             scope: ['user: email']
         },

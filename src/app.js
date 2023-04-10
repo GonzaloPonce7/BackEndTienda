@@ -11,29 +11,30 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
-import path from "path";
 import { initPassport } from './middleware/passportConfig.js';
-import {generateToken, authToken} from './utils.js';
 import compression from 'express-compression'
 import { addLogger } from './logger/index.js';
+import config from './config/config.js';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express'
 
 
 
 const app = express();
-const port = 8080;
-const httpServer =  app.listen(port, () => {addLogger.info(`Listening on port ${port}`)});
+//const port = 8080;
+const httpServer =  app.listen(config.port, () => {addLogger.info(`Listening on port ${config.port}`)});
 const io = new Server(httpServer)
-const MONGO_URL = 'mongodb+srv://esencia:kBK8iqHim9BTWlDU@cluster0.vfdmkug.mongodb.net/?retryWrites=true&w=majority'
+//const MONGO_URL = 'mongodb+srv://esencia:kBK8iqHim9BTWlDU@cluster0.vfdmkug.mongodb.net/?retryWrites=true&w=majority'
 
 
 app.use(session({
   store: MongoStore.create({
-    mongoUrl: MONGO_URL,
+    mongoUrl: config.mongoURI,
     mongoOptions: {
       useNewUrlParser: true,
       useUnifiedTopology: true
     },
-    dbName: 'ecommerce',
+    dbName: config.mongoDbName,
     collectionName: "sessions",
     ttl: 20
   }),
@@ -41,6 +42,20 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+
+const swaggerOptions = {
+  definition: {
+      openapi: '3.0.1',
+      info: {
+          title: "Documentacion test para api birra",
+          description: ""
+      }
+  },
+  apis: [`${__dirname}/../docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+
 
 initPassport()
 app.use(passport.initialize())
@@ -50,11 +65,11 @@ app.use(passport.session())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression())
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
-//app.set("views", path.join(process.cwd() + "/src/views"));
 app.set('view engine', 'handlebars')
 app.set("io", io);
 
@@ -96,11 +111,10 @@ io.on('connection', async socket => {
 
 mongoose.set('strictQuery', false)
 try {
-  await mongoose.connect(MONGO_URL,{dbName:'ecommerce'})
+  await mongoose.connect(config.mongoURI,{dbName:config.mongoDbName})
   
 } catch (error) {
   addLogger.warning(error);
 }
 const db = mongoose.connection;
-db.on('error', addLogger.warning(console, "conection error: "))
 db.once('open', () => addLogger.info("confritas la db"))

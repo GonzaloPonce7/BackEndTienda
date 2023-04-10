@@ -1,4 +1,11 @@
+import { UsersDao } from "../dao/daoMongo/UsersDao.js";
+
 export class UsersController {
+
+  getAll = async (req, res) => {
+    const users = UsersDao.getAll();
+    res.send({status:"success", payload: users})
+  }
   
   logout = async (req, res) => {
     req.session.destroy((err) => {

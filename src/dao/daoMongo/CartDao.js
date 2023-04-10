@@ -1,4 +1,4 @@
-import {cartModel} from "./models/CartModel.js";
+import {cartModel} from "../models/CartModel.js";
 
 export class CartDao {
   static async getAll() {

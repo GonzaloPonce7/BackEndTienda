@@ -1,0 +1,92 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Los carritos fueron devuelvos satisfactoriamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Cart'
+        "500":
+          description: Error interno del server. Query defectuosa o un fallo a la conexion a la DB
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se solicita
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Carts'
+    put:
+      summary: actualiza un carrito a partir del ID
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se solicita
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateCarts'
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado en mongo
+        Date:
+          type: Date
+          description: Fecha en que se creo el carrito
+        Products:
+          type: Array
+          description: Contenido del carrito
+      example:
+        _id: ObjectId("63d05a63e763debe04cc8dfe")
+        Date: 2023-04-10
+        Products: [
+          productId: ObjectId("63d05a63e763debe04cc8dfe"),
+          quantity: 2
+        ]
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+        Date:
+          type: Date
+          description: Fecha en que se creo el carrito
+        Products:
+          type: Array
+          description: Contenido del carrito
+      example:
+        _id: ObjectId("63d05a63e763debe04cc8dfe")
+        Date: 2023-04-10
+        Products: [
+          productId: ObjectId("63d05a63e763debe04cc8dfe"),
+          quantity: 2
+        ]
+tags: []

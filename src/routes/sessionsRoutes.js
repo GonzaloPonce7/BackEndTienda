@@ -1,6 +1,8 @@
 import { Router } from "express";
 import passport from 'passport'
 import { UsersController } from "../controllers/UsersController.js";
+import { validateRoles } from "../middleware/validateUsers.js";
+
 
 const router = Router();
 const usersController = new UsersController()
@@ -16,13 +18,18 @@ router.get('/register', async (req, res) => {
 })
 
 //Vista para fail log
-router.get('/faillogin', (req, res) => {
+router.get('/faillogin', async (req, res) => {
     res.status(400).render('sessions/faillogin')
+})
+
+//Vista para listar users (admin)
+router.get('/users_admin', async (req, res) => {
+    res.render('sessions/users_admin')
 })
 
 //Vista par el fail register
 // router.get('/failregister', async(req, res) => {
-//     console.error('Failed Stragtregy');
+    //     console.error('Failed Stragtregy');
 //     res.status(400).render('sessions/failregister')
 // })
 
@@ -32,24 +39,25 @@ router.get(
     async (req, res) => {
         res.render('sessions/login', {})
     }
-)
+    )
+    
+    router.get(
+        '/login_github',
+        passport.authenticate('github', {scope: ['user:email']}),
+        async (req, res) => {
+            res.render('sessions/login', {})
+        })
 
-router.get(
-    '/login_github',
-    passport.authenticate('github', {scope: ['user:email']}),
-    async (req, res) => {
-        res.render('sessions/login', {})
-    }
-)
+    router.get('/users_admin',validateRoles(['ADMIN']), usersController.getAll)
+        
+    router.get('/logout', usersController.logout)
 
-router.get('/logout', usersController.logout)
+    router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/sessions/login'}), usersController.gitLogin)
 
-router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/sessions/login'}), usersController.gitLogin)
+    router.get('/googlecallback', passport.authenticate('google', {failureRedirect: '/sessions/login'}), usersController.googleLogin)
 
-router.get('/googlecallback', passport.authenticate('google', {failureRedirect: '/sessions/login'}), usersController.googleLogin)
+    router.post('/login', passport.authenticate('local', {failureRedirect: '/sessions/login'}), usersController.localLogin)
 
-router.post('/login', passport.authenticate('local', {failureRedirect: '/sessions/login'}), usersController.localLogin)
-
-router.post('/register', passport.authenticate('register', {failureRedirect: '/sessions/failregister'}), usersController.create)
+    router.post('/register', passport.authenticate('register', {failureRedirect: '/sessions/failregister'}), usersController.create)
 
 export {router as sessionRouter}
