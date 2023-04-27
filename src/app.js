@@ -104,7 +104,7 @@ io.on('connection', async socket => {
       
       io.sockets.emit("products", await productManager.getProducts());
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   })
 })
