@@ -7,6 +7,8 @@ import {router as productsRoute } from './routes/productsRoutes.js';
 import {router as cartsRoute} from './routes/cartsRoutes.js';
 import { sessionRouter } from './routes/sessionsRoutes.js';
 import { testRouter } from './routes/testRoutes.js';
+import { chatRouter } from './routes/chatRoutes.js';
+import { MessagesRepository } from './repository/messageRepository.js';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
@@ -80,13 +82,22 @@ app.use('/api/products', productsRoute)
 app.use('/api/carts', cartsRoute)
 app.use('/sessions', sessionRouter)
 app.use('/api/test', testRouter)
+app.use("/api/chat", chatRouter)
 
 io.on('connection', async socket => {
-  console.log(`New client connected id: ${socket.id}`)
+  addLogger.info(`New client connected id: ${socket.id}`)
   
+  const messageService = new MessagesRepository() 
+
   let products = await productsManager.getProducts()
   
   io.sockets.emit('products', products)
+
+  socket.on("message", async data => {
+    await messageService.create(data)
+    let messages = await messageService.get()
+    socketServer.emit("logs", messages)
+    })
   
   socket.on('addProduct', async (product) => {
     try {
