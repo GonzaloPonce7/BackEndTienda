@@ -1,0 +1,39 @@
+Desde el router de /api/users, crear tres rutas:
+GET  /  deberá obtener todos los usuarios, éste sólo debe devolver los datos principales como nombre, correo, tipo de cuenta (rol) ------> DONE
+
+DELETE / deberá limpiar a todos los usuarios que no hayan tenido conexión en los últimos 2 días. (puedes hacer pruebas con los últimos 30 minutos, por ejemplo). Deberá enviarse un correo indicando al usuario que su cuenta ha sido eliminada por inactividad
+
+Crear una vista para poder visualizar, modificar el rol y eliminar un usuario. Esta vista únicamente será accesible para el administrador del ecommerce
+
+Modificar el endpoint que elimina productos, para que, en caso de que el producto pertenezca a un usuario premium, le envíe un correo indicándole que el producto fue eliminado.
+
+Finalizar las vistas pendientes para la realización de flujo completo de compra. NO ES NECESARIO tener una estructura específica de vistas, sólo las que tú consideres necesarias para poder llevar a cabo el proceso de compra.
+
+No es necesario desarrollar vistas para módulos que no influyan en el proceso de compra (Como vistas de usuarios premium para crear productos, o vistas de panel de admin para updates de productos, etc)
+
+
+Realizar el despliegue de tu aplicativo en la plataforma de tu elección (Preferentemente Railway.app, pues es la abarcada en el curso) y corroborar que se puede llevar a cabo un proceso de compra completo. -------> DONE
+
+
+Mantener un correcto manejo de sesiones:
+
+Se mantiene la consistencia de las políticas de sesiones. Manteniendo el qué puede hacer
+y qué no puede hacer algún usuario o administrador en particular, basándonos en su rol.
+
+Proceso de compra:
+
+Se pueden agregar los productos deseados (conservando que un usuario premium no
+puede comprar productos suyos o un admin no puede comprar).
+Se gestiona correctamente el carrito al agregar o quitar productos de éste.
+Se realiza un cierre de compra completo con información.   
+
+Arquitectura del proyecto:
+
+Al finalizar el proyecto, la arquitectura de éste debe mantenerse por capas, manteniendo
+las responsabilidades bien delegadas.
+Evitar mantener elementos del proyecto aislados (es decir, sin pertenecer a alguna capa
+en particular).
+Creación bien justificada de capas según sea necesario (como una capa de middlewares
+en caso de que se estén dejando desperdigados en el proyecto).
+
+TODO: /UsersController probar metodo updateRoles, deleteOldUsers, deleteByUsername

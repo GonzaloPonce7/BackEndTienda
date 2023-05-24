@@ -21,6 +21,7 @@ const PRIVATE_KEY = 'asd123'
 
 
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+
 export const isValidPassword = (user, password) => {
     return bcrypt.compare(password, user.password)
     //compareSync

@@ -1,11 +1,43 @@
-<h1>Carrito # {{carts._id}}</h1>
+<h1>Carrito # {{cart._id}}</h1>
 
-<div>
-    <b>{{carts.date}}</b>
-    {{#if products.length}}
+
+    {{#if cart}}
         {{#each products}}
-            <i>{{carts.products}}</i>
-            <i>{{carts.quantity}}</i>
+            <ul>
+                <li>Producto: {{this.title}}</li>
+                <li>Precio unitario: {{this.price}}</li>
+                <li>Cantidad: {{this.quantity}}</li>
+            </ul>
         {{/each}}
+        <button onclick="purchase()" id="purchase" class="btn" type="button">Comprar</button>
     {{/if}}
-</div>
+
+    {{#if errorMsg}}
+    <h2>{{errorMsg}}</h2>
+    {{/if}}
+
+
+<script>
+  async function purchase() {
+    try {
+      const response = await fetch("http://localhost:8080/api/carts/purchase", {
+        method: 'POST',
+        credentials:"include",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (!response.ok) {
+        errorMsg = 'Error al realizar la compra'
+      }
+    const result = await response.json();
+    console.log('Respuesta del endpoint:', response);
+    response.redirected(`http://localhost:8080/ticket/${result.tid}`)
+    } catch (error) {
+      console.error('Error al enviar el ID:', error);
+      errorMsg = 'Error al realizar la compra'
+    }
+  }
+</script>

@@ -1,0 +1,13 @@
+    <h1>Ticket nro {{ticket.code}}</h1>
+
+    <h3>Fecha: {{ticket.date}}</h3>
+    <h3>Productos:</h3>
+    {{#each ticket.products}}
+    <h4>{{this.title}}</h4>
+    {{/each}}
+    <h3>Total: {{ticket.total}}</h3>
+    
+
+    {{#else}}
+    <h1>Error de ticket</h1>
+    {{/else}}

@@ -1,38 +1,40 @@
 import { productModel } from "../models/ProductModel.js";
 
-class ProductDao {
-  static async getAll() {
+export class ProductDao {
+  async getAll() {
     return await productModel.find().lean().exec();
   }
 
-  static async getFiltered(filter = {}, page = 1, limit = 10, sort = 'asc') {
+  async getFiltered(filter = {}, page = 1, limit = 10, sort = 'asc') {
     const options = {
       sort: { price: sort == 'desc' ? -1 : 1 },
       lean: true,
       page: page,
       limit: limit,
     };
-    return await productModel.paginate(filter, options);
+    
+    const result = await productModel.paginate(filter, options);
+
+    return result.docs;
   }
 
-  static async getById(id) {
+  async getById(id) {
     return await productModel.findById(id).lean().exec();
   }
 
-  static async deleteById(id) {
+  async deleteById(id) {
     return await productModel.findByIdAndDelete(id).lean().exec();
   }
-  static async deleteByTitle(title) {
+
+  async deleteByTitle(title) {
     return await productModel.deleteOne({ Title: title }).lean().exec();
   }
 
-  static async create(product) {
-    return await productModel.create(product);
-  }
-
-  static async update(product) {
+  async update(product) {
     return await productModel.replaceOne({_id: product._id}, product).lean().exec();
   }
-}
 
-export { ProductDao };
+  async create(product) {
+    return await productModel.create(product);
+  }
+}

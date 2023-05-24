@@ -18,6 +18,9 @@ const UsersSchema = new mongoose.Schema({
     cartId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'carts'
+    },
+    sessionDate: {
+        type: Date
     }
 })
 

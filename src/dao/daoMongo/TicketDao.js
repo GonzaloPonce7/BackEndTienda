@@ -5,7 +5,7 @@ export class TicketDao {
         return await ticketModel.create(ticket);
     }
 
-    async get(id) {
-        return await ticketModel.findById(id);
+    async getById(tid) {
+        return await ticketModel.findById(tid);
     }
 }

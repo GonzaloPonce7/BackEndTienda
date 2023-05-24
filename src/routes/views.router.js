@@ -1,46 +1,138 @@
-import express from 'express'
-import { productModel } from '../dao/models/ProductModel.js'
-import { cartModel } from '../dao/models/CartModel.js'
-import { CartDao } from '../dao/daoMongo/CartDao.js'
-import { ProductDao } from '../dao/daoMongo/ProductDao.js'
+import express from "express";
+import { CartRepository } from "../repository/cartRepository.js";
+import { validateRoles } from "../middleware/validateUsers.js";
+import { ProductRepository } from "../repository/productsRepository.js";
+import { UsersRepository } from "../repository/usersRepository.js";
+import { TicketRepository } from "../repository/ticketRepository.js";
+import passport from "passport";
+
+const router = express.Router();
+const cartRepository = new CartRepository();
+const usersRepository = new UsersRepository();
+const productRepository = new ProductRepository();
+const ticketRepository = new TicketRepository();
 
 
+async function filterProducts(req) {
 
-const router = express.Router()
+  let page = req?.query?.page || req?.body?.page;
+  let limit = req?.query?.limit || req?.body?.limit;
+  let sort = req?.query?.sort || req?.body?.sort;
 
-router.get('/', async (req, res) => {
-    console.log("entro a raiz");
-    let limit = req.query.limit;
-    let page = req.query.page;
-    let sort = req.query.sort;
+  let filter = {};
 
-    let filter = {};
+  if (req?.query?.title) filter.title = req.query.title;
+  if (req?.query?.description) filter.description = req.query.description;
+  if (req?.query?.price) filter.price = req.query.price;
+  if (req?.query?.stock) filter.stock = req.query.stock;
+  if (req?.query?.code) filter.code = req.query.code;
+  if (req?.query?.status) filter.status = req.query.status;
+  if (req?.query?.category) filter.category = req.query.category;
 
-    if (req.query.title) filter.title = req.query.title;
-    if (req.query.description) filter.description = req.query.description;
-    if (req.query.price) filter.price = req.query.price;
-    if (req.query.stock) filter.stock = req.query.stock;
-    if (req.query.code) filter.code = req.query.code;
-    if (req.query.status) filter.status = req.query.status;
-    if (req.query.category) filter.category = req.query.category;
+  // result.prevLink = result.hasPrevPage ? `/products?page=${result.prevPage}` : ''
+  // result.nextLink = result.hasNextPage ? `/products?page=${result.nextPage}` : ''
+  // result.isValid = !(page <= 0 || page>result.totalPages)
 
-    const result = await ProductDao.getFiltered(filter, page, limit, sort)
+  return await productRepository.getFiltered(filter, page, limit, sort);
+}
 
-    result.prevLink = result.hasPrevPage ? `/products?page=${result.prevPage}` : ''
-    result.nextLink = result.hasNextPage ? `/products?page=${result.nextPage}` : ''
-    result.isValid = !(page <= 0 || page>result.totalPages)
+// Vista de login
+router.get("/login", async (req, res) => {
+  res.render("sessions/login", {});
+});
 
-    res.render('home',  {result})
+// Vista para registrar usuarios
+router.get("/register", async (req, res) => {
+  res.render("sessions/register", {});
+});
+
+//Vista para fail log
+router.get("/faillogin", async (req, res) => {
+  res.render("sessions/faillogin");
+});
+
+//Vista para listar users (admin)
+router.get("/users_admin", validateRoles(["admin"]), async (req, res) => {
+  const users = await usersRepository.getAll()
+  res.render("admin/users_admin", {users});
+});
+
+//Vista par el fail register
+router.get('/failregister', async(req, res) => {
+    console.error('Failed Stragtregy');
+    res.render('sessions/failregister')
 })
 
-router.get('/cart/:cid', async (req, res) => {
-    //Visualizar un carrito especifico por id, donde se debe listar los productos en el carrito seleccionado.
-    let cid = req.body.cid || req.params.cid
+router.get(
+  "/login_google",
+  passport.authenticate("google", { scope: ["email", "profile"] }),
+  async (req, res) => {
+    res.render("sessions/login", {});
+  }
+);
 
-    const cartFinded = await CartDao.getById(cid)
+router.get(
+  "/login_github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  async (req, res) => {
+    res.render("sessions/login", {});
+  }
+);
 
-    res.render('cart', {cartFinded})
+router.get("/", async (req, res) => {
+  const products = await filterProducts(req);
+  const user = req.session.user;
+  console.log(products);
+
+  const homeContext = { products, user};
+
+  res.render("home", homeContext);
+});
+
+router.get("/products", validateRoles(["admin"]), async (req, res) => {
+  const products = await filterProducts(req);
+  const user = req.session.user;
+
+  const context = { products, user };
+
+  res.render("admin/products_admin", context);
+});
+
+router.get("/cart", async (req, res) => {
+
+  let cart = null
+  let products = []
+  let errorMsg = null
+  const user = req.session.user
+
+  if(user) {
+    const cartId = user?.cartId
+    cart = await cartRepository.getById(cartId)
+  }
+
+  for (const p of cart.products) {
+    const productFinded = await productRepository.getById(p.productId)
+    let product = {
+      title: productFinded.title,
+      price: productFinded.price,
+      quantity: p.quantity
+    }
+    products.push(product)
+  }
+
+  const cartContext = { cart, products, errorMsg }
+
+  res.render("cart", cartContext);
+});
+
+
+router.get("/ticket/:tid", validateRoles(["user"]), async (req, res) => {
+  const tid = req.params.tid
+  const ticket = await ticketRepository.getById(tid)
+  console.log("Aca llega el ticket buscado " + JSON.stringify(ticket));
+  const ticketContext = { ticket }
+
+  res.render("ticket", ticketContext);
 })
 
-
-export {router as viewsRouter }
+export { router as viewsRouter };

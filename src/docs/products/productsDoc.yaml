@@ -8,7 +8,7 @@ paths:
         "200":
           description: Los productos fueron devuelvos satisfactoriamente.
           content:
-            application/json:
+            application/swaggerjson:
               schema:
                 type: array
                 items:

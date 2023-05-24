@@ -10,5 +10,7 @@ export default{
     clientSecretGoggle: process.env.CLIENT_SECRET_GOOGLE,
     clientIDGithub: process.env.CLIENT_ID_GITHUB,
     clientSecretGithub: process.env.CLIENT_SECRET_GITHUB,
-    env: process.env.NODE_ENV
+    mailUser: process.env.MAIL_USER,
+    mailPass: process.env.MAIL_PASS,
+    env: process.env.NODE_ENV,
 }

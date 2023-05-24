@@ -7,23 +7,23 @@ export class ProductRepository {
     }
 
     async getById(id) {
-        await this.productDao.getById(id)
+        return await this.productDao.getById(id)
     }
 
     async deleteById(id){
-        await this.productDao.deleteById(id)
+        return await this.productDao.deleteById(id)
     }
 
     async create(product) {
-        await this.productDao.create(product)
+        return await this.productDao.create(product)
     }
 
     async update(product) {
-        await this.productDao.update(product)
+        return await this.productDao.update(product)
     } 
 
     async getFiltered(filter, page, limit, sort) {
-        await this.productDao.getFiltered(filter, page, limit, sort)
+        return await this.productDao.getFiltered(filter, page, limit, sort)
     }
 
 }

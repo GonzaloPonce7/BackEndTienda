@@ -1,4 +1,4 @@
-import MessagesModel from "../models/MessageModel";
+import MessagesModel from "../models/MessageModel.js";
 
 export class MessageDao {
 

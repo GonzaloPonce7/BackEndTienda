@@ -6,19 +6,18 @@ import { validateRoles } from "../middleware/validateUsers.js";
 const router = express.Router();
 const cartController = new CartController()
 
-router.get("/",validateRoles(['ADMIN']), cartController.getAll)
 
-router.post('/', validateRoles(['ADMIN', 'CLIENT']), cartController.createCart)
+router.get('/', validateRoles(['admin', 'user']), cartController.getById)
 
-router.post('/:cid/purchase', validateRoles(['ADMIN', 'CLIENT']), cartController.checkAndConfirm)
+router.post('/purchase', validateRoles(['admin', 'user']), cartController.checkAndConfirm)
 
-router.delete('/:cid/products/:pid',validateRoles(['ADMIN', 'CLIENT']), cartController.deleteProductInCart)
+router.delete('/:cid/products/:pid',validateRoles(['admin', 'user']), cartController.deleteProductInCart)
 
-router.delete('/:cid', validateRoles(['ADMIN', 'CLIENT']), cartController.deleteAllProducts)
+router.delete('/:cid', validateRoles(['admin', 'user']), cartController.deleteAllProducts)
 
-router.put('/:cid', validateRoles(['ADMIN', 'CLIENT']), cartController.updateProducts)
+router.post('/', validateRoles(['admin', 'user']), cartController.addProductToCart)
 
-router.put('/:cid/products/:pid', validateRoles(['ADMIN', 'CLIENT']), cartController.modifyQuantity)
+router.put('/:cid/products/:pid', validateRoles(['admin', 'user']), cartController.modifyQuantity)
 
 
 export {router}

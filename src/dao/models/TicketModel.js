@@ -3,11 +3,12 @@ import mongoose from "mongoose";
 const TicketsCollection = 'tickets'
 
 const TicketSchema = new mongoose.Schema({
-    _id: { type: String },
+    //_id: { type: String },
     code: { type: String, unique: true },
-    purchase_datetime: { type: Date },
-    amount: { type: Number },
-    purchaser:{ type: String }
+    date: { type: Date },
+    total: { type: Number },
+    user:{ type: String },
+    products: []
 })
 
 const ticketModel = mongoose.model(TicketsCollection, TicketSchema)

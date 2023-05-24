@@ -2,15 +2,11 @@
 
     {{#if user}}
     <h3>{{user.first_name}}</h3>
-    {{if}}
+    {{/if}}
+
 
     <h1 class="title">Lista de productos</h1>
 
-
-    <form action="/products">
-        Buscar: <input type="text" name="query" value="{{query}}"> 
-        <input type="submit" value="Buscar">
-    </form>
 
     <table class="product-list">
         <tr>
@@ -19,41 +15,59 @@
             <th>Precio</th>
             <th>Miniatura</th>
         </tr>
-        {{#if products.length}}
         {{#each products}}
-        <tr>
+        <tr id="{{this.id}}">
             <td>{{this.title}}</td>
             <td>{{this.description}}</td>
             <td>{{this.price}}</td>
             <td><img height="72px" width="72px" src={{this.thumbnail}} /></td>
-            <td><button class="btn" id="putInCart">Agregar al carrito</button></td>
+            <td><input type="number" class="cantidad" min="1">Cantidad:</td>
+            <td>
+                <button onclick="enviarId( '{{this.id}}' )" class="btn" >Agregar al carrito</button>
+            </td>
         </tr>
         {{/each}}
-        {{/if}}
     </table>
 
 </div>
 
+<script>
 
-<style>
-    table,
-    th,
-    td {
-        border: 2px solid round;
-        color:crimson;
-        background-color: black;
-        text-color: rgb(131, 17, 156)
+async function enviarId(id) {
+  const cantidadInput = document.getElementById(`${id}`).getElementsByClassName("cantidad")[0].value;
+  const cantidad = parseInt(cantidadInput);
+
+  if (isNaN(cantidad) || cantidad <= 0) {
+    console.error('La cantidad debe ser un número entero mayor a cero');
+    return;
+  }
+
+  const product = {
+    pid: id,
+    quantity: cantidad
+  };
+
+
+  try {
+    const response = await fetch("http://localhost:8080/api/carts", {
+      method: 'POST',
+      credentials:"include",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(product)
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la solicitud');
     }
 
-    .title {
-        text-align: center;
-    }
+    //const result = await response.json();
+    console.log('Respuesta del endpoint:', response);
+  } catch (error) {
+    console.error('Error al enviar el ID:', error);
+  }
+}
 
-    .product-list {
-        width: 70%;
-    }
-</style>
-
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/home.js"></script>
+</script>

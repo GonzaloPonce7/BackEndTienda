@@ -1,4 +1,4 @@
-import { MessageDao } from "../dao/daoMongo/MessageDao"
+import { MessageDao } from "../dao/daoMongo/MessageDao.js"
 
 export class MessagesRepository {
 
