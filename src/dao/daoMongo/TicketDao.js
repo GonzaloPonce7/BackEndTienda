@@ -6,6 +6,6 @@ export class TicketDao {
     }
 
     async getById(tid) {
-        return await ticketModel.findById(tid);
+        return await ticketModel.findById(tid).lean().exec();
     }
 }

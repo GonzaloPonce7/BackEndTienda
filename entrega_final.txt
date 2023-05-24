@@ -36,4 +36,3 @@ en particular).
 Creación bien justificada de capas según sea necesario (como una capa de middlewares
 en caso de que se estén dejando desperdigados en el proyecto).
 
-TODO: /UsersController probar metodo updateRoles, deleteOldUsers, deleteByUsername

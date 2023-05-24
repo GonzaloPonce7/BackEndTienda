@@ -13,7 +13,7 @@ router.post('/purchase', validateRoles(['admin', 'user']), cartController.checkA
 
 router.delete('/:cid/products/:pid',validateRoles(['admin', 'user']), cartController.deleteProductInCart)
 
-router.delete('/:cid', validateRoles(['admin', 'user']), cartController.deleteAllProducts)
+router.delete('/', validateRoles(['admin', 'user']), cartController.deleteAllProducts)
 
 router.post('/', validateRoles(['admin', 'user']), cartController.addProductToCart)
 

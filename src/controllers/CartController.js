@@ -58,13 +58,12 @@ export class CartController {
         });
       }
     }
-    console.log("Aca llegan los productos chequeados "+ JSON.stringify(productsCheked));
 
-    //Recorrer finalCart, comparar con initCart e ir borrando los que se pushearon a finalCart
-    //
     productsCheked.forEach((e) => {
-      const i = cart.products.findIndex((p) => p._id == e._id);
-      if (i >= 0) cart.products.splice(i, 1);
+      const i = cart.products.findIndex((p) => p.productId == e.productId);
+      if (i >= 0) {
+        let result = cart.products.splice(i, 1);
+      } 
     });
     await this.cartRepository.update(cart);
 
@@ -78,7 +77,6 @@ export class CartController {
     const ticket = { user: user.email , date, products: productsCheked, code, total };
 
     const result = await this.ticketRepository.create(ticket);
-    console.log("Este es el ticket creado" + result);
 
     res.status(200).send({tid: result._id})//.redirect(`/ticket/${result._id}`);
   };
@@ -95,16 +93,12 @@ export class CartController {
   };
 
   deleteAllProducts = async (req, res) => {
-    //Eliminar todos los productos del carrito
-    const cid = req.params.cid;
+    const cid = req.session.user.cartId;
     await this.cartRepository.deleteAllProducts(cid);
     res.status(200).send("Carrito vaciado");
   };
 
   addProductToCart = async (req, res) => {
-    //llamar al repo de productos, traer el producto por el id que me pasaron(solo verificacion)
-    //llamar a addproduct y pasarle el cid y pid
-    //en la vista agregar un form con la ruta de /cart/
     const cid = req.session.user.cartId;
     const pid = req.body.pid;
     const quantity = req.body.quantity;

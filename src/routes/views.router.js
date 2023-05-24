@@ -82,7 +82,6 @@ router.get(
 router.get("/", async (req, res) => {
   const products = await filterProducts(req);
   const user = req.session.user;
-  console.log(products);
 
   const homeContext = { products, user};
 
@@ -129,7 +128,8 @@ router.get("/cart", async (req, res) => {
 router.get("/ticket/:tid", validateRoles(["user"]), async (req, res) => {
   const tid = req.params.tid
   const ticket = await ticketRepository.getById(tid)
-  console.log("Aca llega el ticket buscado " + JSON.stringify(ticket));
+  console.log("Aca llega el ticket buscado " + ticket);
+  console.log("Esta es el tipo  " + typeof ticket);
   const ticketContext = { ticket }
 
   res.render("ticket", ticketContext);

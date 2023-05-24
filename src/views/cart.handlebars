@@ -1,7 +1,8 @@
 <h1>Carrito # {{cart._id}}</h1>
 
 
-    {{#if cart}}
+  {{#if cart}}
+    {{#if cart.products.length}}
         {{#each products}}
             <ul>
                 <li>Producto: {{this.title}}</li>
@@ -10,7 +11,12 @@
             </ul>
         {{/each}}
         <button onclick="purchase()" id="purchase" class="btn" type="button">Comprar</button>
+        <button onclick="clean()" id="delete" class="btn" type="button">Vaciar carrito</button>
+    {{else}}
+    <h3>Carrito vacio</h3>
     {{/if}}
+  {{/if}}
+
 
     {{#if errorMsg}}
     <h2>{{errorMsg}}</h2>
@@ -34,10 +40,30 @@
       }
     const result = await response.json();
     console.log('Respuesta del endpoint:', response);
-    response.redirected(`http://localhost:8080/ticket/${result.tid}`)
+    window.location.href = `http://localhost:8080/ticket/${result.tid}`
     } catch (error) {
       console.error('Error al enviar el ID:', error);
       errorMsg = 'Error al realizar la compra'
     }
   }
+
+  async function clean() {
+    try {
+      const response = await fetch("http://localhost:8080/api/carts", {
+        method: 'DELETE',
+        credentials: "include",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+    window.location.href = `http://localhost:8080/cart`
+    }
+    catch (error) {
+      console.error('Error al vaciar:', error);
+    }
+  }
+
 </script>
+
+
